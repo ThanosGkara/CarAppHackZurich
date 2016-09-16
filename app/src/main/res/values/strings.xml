@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">CarAppHackZurich</string>
+    <string name="accelerometer">ACCELEROMETER</string>
+    <string name="gravity">GRAVITY</string>
+    <string name="gyroscope">GYROSCOPE</string>
+    <string name="gyroscope_uncalibrated">GYROSCOPE_UNCALIBRATED</string>
+    <string name="linear_acceleration">LINEAR_ACCELERATION</string>
+    <string name="rotation_vector">ROTATION_VECTOR</string>
+    <string name="significant_motion">SIGNIFICANT_MOTION</string>
+    <string name="magnetometer">MAGNETOMETER</string>
+    <string name="magnetometer_un">MAGNETOMETER_uncalibrated</string>
+</resources>
