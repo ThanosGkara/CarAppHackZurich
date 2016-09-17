@@ -13,12 +13,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.content.BroadcastReceiver;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
     private static final String TAG = "SensorsService";
     private Intent serviceIntent;
     private Intent backgroundIntent;
+    private Intent webIntent;
     final Context context = this;
 
     private Button btCarID;
@@ -37,6 +39,7 @@ public class MainActivity extends Activity {
 
         serviceIntent = new Intent(this, SensorsViewActivity.class);
         backgroundIntent = new Intent(this, SensorsService.class);
+        webIntent = new Intent(this, FrontEndActivity.class);
 
         btCarID = (Button) findViewById(R.id.btCarID);
         btCarType = (Button) findViewById(R.id.btCarType);
@@ -119,18 +122,27 @@ public class MainActivity extends Activity {
     }
 
     public void StopSensorService(View view) {
-        unregisterReceiver(sensorsSReceiver);
-        stopService(backgroundIntent);
+        try {
+            unregisterReceiver(sensorsSReceiver);
+            stopService(backgroundIntent);
+        }
+        catch (java.lang.IllegalArgumentException e){
+            Toast.makeText(context, "Service Already Stoppped", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void updateLogArea(Intent intent){
         tvLogArea.setText("");
-        tvLogArea.setText("TYPE_ACCELEROMETER: " + intent.getStringExtra("TYPE_ACCELEROMETER") + "\n"
-                + "TYPE_GYROSCOPE: " + intent.getStringExtra("TYPE_GYROSCOPE") + "\n"
-                + "TYPE_GYROSCOPE_UNCALIBRATED: " + intent.getStringExtra("TYPE_GYROSCOPE_UNCALIBRATED")
-                + "TYPE_MAGNETIC_FIELD: " + intent.getStringExtra("TYPE_MAGNETIC_FIELD")
-                + "TYPE_MAGNETIC_FIELD_UNCALIBRATED: " + intent.getStringExtra("TYPE_MAGNETIC_FIELD_UNCALIBRATED")
-                + "TYPE_LINEAR_ACCELERATION: " + intent.getStringExtra("TYPE_LINEAR_ACCELERATION")
-                + "TYPE_ROTATION_VECTOR" + intent.getStringExtra("TYPE_ROTATION_VECTOR"));
+        tvLogArea.setText("TYPE_ACCELEROMETER: " + intent.getStringExtra("TYPE_ACCELEROMETER") + "\n\n"
+                + "TYPE_GYROSCOPE: " + intent.getStringExtra("TYPE_GYROSCOPE") + "\n\n"
+                + "TYPE_GYROSCOPE_UNCALIBRATED: " + intent.getStringExtra("TYPE_GYROSCOPE_UNCALIBRATED") + "\n\n"
+                + "TYPE_MAGNETIC_FIELD: " + intent.getStringExtra("TYPE_MAGNETIC_FIELD") + "\n\n"
+                + "TYPE_MAGNETIC_FIELD_UNCALIBRATED: " + intent.getStringExtra("TYPE_MAGNETIC_FIELD_UNCALIBRATED") + "\n\n"
+                + "TYPE_LINEAR_ACCELERATION: " + intent.getStringExtra("TYPE_LINEAR_ACCELERATION") + "\n\n"
+                + "TYPE_ROTATION_VECTOR: " + intent.getStringExtra("TYPE_ROTATION_VECTOR") + "\n\n");
+    }
+
+    public void startWebview(View view) {
+        startActivity(webIntent);
     }
 }

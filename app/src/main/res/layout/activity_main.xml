@@ -53,6 +53,11 @@
             android:id="@+id/btDisplaySensors"
             android:text="@string/DisplaySensors"
             android:onClick="showSensors"/>
+
+        <Button
+            android:id="@+id/btWebView"
+            android:text="@string/WebView"
+            android:onClick="startWebview"/>
     </GridLayout>
 
     <LinearLayout
