@@ -9,4 +9,9 @@
     <string name="significant_motion">SIGNIFICANT_MOTION</string>
     <string name="magnetometer">MAGNETOMETER</string>
     <string name="magnetometer_un">MAGNETOMETER_uncalibrated</string>
+    <string name="carid">Car ID</string>
+    <string name="cartype">Car Type</string>
+    <string name="StarSensorService">Star Sensor Service</string>
+    <string name="StopSensorService">Stop Sensor Service</string>
+    <string name="DisplaySensors">Display Sensors</string>
 </resources>

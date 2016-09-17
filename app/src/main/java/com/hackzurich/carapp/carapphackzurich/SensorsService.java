@@ -8,13 +8,8 @@ import android.hardware.SensorEventListener;
 import android.os.IBinder;
 import android.os.Handler;
 import android.util.Log;
-
-import android.content.Context;
-import android.hardware.Sensor;
 import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.hardware.TriggerEvent;
 import android.hardware.TriggerEventListener;
 
 
@@ -33,7 +28,6 @@ public class SensorsService extends Service implements SensorEventListener {
     private Sensor mAccel;
     private Sensor mGyro;
     private Sensor mGyroUn;
-//    private Sensor mSigMotion;
     private Sensor mGravity;
     private Sensor mMagnitometer;
     private Sensor mMagnitometerUn;
@@ -43,7 +37,6 @@ public class SensorsService extends Service implements SensorEventListener {
     private String tvAccel;
     private String tvGyro;
     private String tvGyroUn;
-//    private String tvSigMotion;
     private String tvGravity;
     private String tvMagnitometer;
     private String tvMagnitometerUn;
@@ -64,7 +57,6 @@ public class SensorsService extends Service implements SensorEventListener {
         mAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         mGyroUn = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED);
-//        mSigMotion = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mGravity = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         mMagnitometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         mMagnitometerUn = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED);
@@ -96,8 +88,7 @@ public class SensorsService extends Service implements SensorEventListener {
         public void run() {
             DisplayLoggingInfo();
 //            handler.postDelayed(this, 10000); // 10 seconds
-//            handler.postDelayed(this, 500);
-            handler.post(this);
+            handler.post(this); // instantly post the obtained data to the caller class
         }
     };
 
@@ -149,10 +140,7 @@ public class SensorsService extends Service implements SensorEventListener {
     }
 
     private void DisplayLoggingInfo() {
-        Log.d(TAG, "entered DisplayLoggingInfo");
-
-//        intent.putExtra("time", new Date().toLocaleString());
-//        intent.putExtra("counter", String.valueOf(++counter));
+//        Log.d(TAG, "entered DisplayLoggingInfo");
         intent.putExtra("TYPE_ACCELEROMETER", tvAccel);
         intent.putExtra("TYPE_GYROSCOPE", tvGyro);
         intent.putExtra("TYPE_GYROSCOPE_UNCALIBRATED", tvGyroUn);
@@ -182,7 +170,6 @@ public class SensorsService extends Service implements SensorEventListener {
         mSensorManager.unregisterListener(this, mMagnitometerUn);
         mSensorManager.unregisterListener(this, mLinearAccel);
         mSensorManager.unregisterListener(this, mRotionVector);
-//        mSensorManager.cancelTriggerSensor(mTriggerEventListener, mSigMotion);
         super.onDestroy();
     }
 }

@@ -10,80 +10,57 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.hackzurich.carapp.carapphackzurich.MainActivity">
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <GridLayout
+        android:id="@+id/GRD"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:rowOrderPreserved="true"
+        android:useDefaultMargins="true">
 
-        <GridLayout
+        <Button
+            android:id="@+id/btCarID"
+            android:text="@string/carid"
+            android:onClick="setCarID"/>
+
+        <Button
+            android:id="@+id/btCarType"
+            android:text="@string/cartype"
+            android:onClick="setCarType"/>
+
+        <TextView
+            android:id="@+id/tvCarID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tvCarType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/btStarSensorService"
+            android:text="@string/StarSensorService" />
+
+        <Button
+            android:id="@+id/btStopSensorService"
+            android:text="@string/StopSensorService" />
+
+        <Button
+            android:id="@+id/btDisplaySensors"
+            android:text="@string/DisplaySensors"
+            android:onClick="showSensors"/>
+    </GridLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/GRD">
+
+        <TextView
+            android:id="@+id/tvLogArea"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:columnCount="2"
-            android:orientation="horizontal"
-            android:rowOrderPreserved="true"
-            android:useDefaultMargins="true">
-
-            <Button android:text="@string/accelerometer" />
-
-            <Button android:text="@string/gravity" />
-
-            <TextView
-                android:id="@+id/tvACCELEROMETER"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvGRAVITY"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button android:text="@string/gyroscope_uncalibrated" />
-
-            <Button android:text="@string/gyroscope" />
-
-            <TextView
-                android:id="@+id/tvGYROSCOPE_UNCALIBRATED"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvGYROSCOPE"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button android:text="@string/linear_acceleration" />
-
-            <Button android:text="@string/rotation_vector" />
-
-            <TextView
-                android:id="@+id/tvLINEAR_ACCELERATION"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvROTATION_VECTOR"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button android:text="@string/magnetometer_un" />
-
-            <Button android:text="@string/magnetometer" />
-
-            <TextView
-                android:id="@+id/tvMAGNETOMETER_UNCALIBRATED"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/tvMAGNETOMETER"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button android:text="@string/significant_motion" />
-
-            <TextView
-                android:id="@+id/tvSIGNIFICANT_MOTION"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </GridLayout>
-    </ScrollView>
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </RelativeLayout>

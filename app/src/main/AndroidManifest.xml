@@ -19,7 +19,9 @@
         <service
             android:name=".SensorsService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity android:name=".SensorsViewActivity"></activity>
     </application>
 
 </manifest>
