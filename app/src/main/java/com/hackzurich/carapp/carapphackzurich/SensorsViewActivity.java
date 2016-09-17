@@ -21,7 +21,7 @@ public class SensorsViewActivity extends Activity {
     private TextView tvMagnitometer;
     private TextView tvMagnitometerUn;
     private TextView tvLinearAccel;
-    private TextView tvRotationVector;
+    private TextView tvGPSLovation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class SensorsViewActivity extends Activity {
         tvMagnitometer = (TextView) findViewById(R.id.tvMAGNETOMETER);
         tvMagnitometerUn = (TextView) findViewById(R.id.tvMAGNETOMETER_UNCALIBRATED);
         tvLinearAccel = (TextView) findViewById(R.id.tvLINEAR_ACCELERATION);
-        tvRotationVector = (TextView) findViewById(R.id.tvROTATION_VECTOR);
+        tvGPSLovation = (TextView) findViewById(R.id.tvGPS);
     }
 
     private BroadcastReceiver sensorsSReceiver = new BroadcastReceiver() {
@@ -69,6 +69,7 @@ public class SensorsViewActivity extends Activity {
         tvMagnitometer.setText(intent.getStringExtra("TYPE_MAGNETIC_FIELD_UNCALIBRATED"));
         tvMagnitometerUn.setText(intent.getStringExtra("TYPE_LINEAR_ACCELERATION"));
         tvLinearAccel.setText(intent.getStringExtra("TYPE_ROTATION_VECTOR"));
+        tvGPSLovation.setText(intent.getStringExtra("GPS"));
 //        Log.d(TAG, "TYPE_ACCELEROMETER");
 //        Log.d(TAG, "TYPE_GYROSCOPE");
 //        Log.d(TAG, "TYPE_GYROSCOPE_UNCALIBRATED");

@@ -23,5 +23,20 @@ public class FrontEndActivity extends Activity {
         webSettings.setJavaScriptEnabled(true);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        myWebView.onResume();
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        myWebView.onPause();
+    }
+
+    protected void onDestroy(){
+        myWebView.destroy();
+        super.onDestroy();
+    }
 }

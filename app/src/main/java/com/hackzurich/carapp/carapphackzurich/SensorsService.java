@@ -1,18 +1,26 @@
 package com.hackzurich.carapp.carapphackzurich;
 
+import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEventListener;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
+import android.widget.Toast;
 
 
-public class SensorsService extends Service implements SensorEventListener {
+public class SensorsService extends Service implements SensorEventListener, LocationListener {
 
     private static final String TAG = "SensorsService";
     public static final String BROADCAST_ACTION = "com.hackzurich.carapp.carapphackzurich";
@@ -32,6 +40,9 @@ public class SensorsService extends Service implements SensorEventListener {
     private Sensor mLinearAccel;
     private Sensor mRotionVector;
 
+    protected LocationManager locationManager;
+    protected Location location;
+
     private String tvAccel;
     private String tvGyro;
     private String tvGyroUn;
@@ -41,6 +52,11 @@ public class SensorsService extends Service implements SensorEventListener {
     private String tvLinearAccel;
     private String tvRotationVector;
 
+    private String mCurrentLatitude;
+    private String mCurrentLongitude;
+    private String sLongitude;
+    private String sLatitude;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -48,7 +64,7 @@ public class SensorsService extends Service implements SensorEventListener {
         intent = new Intent(BROADCAST_ACTION);
 
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        calcs = new SensorsCalulations();
+        calcs = new SensorsCalulations(mSensorManager);
         mAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         mGyroUn = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE_UNCALIBRATED);
@@ -57,6 +73,7 @@ public class SensorsService extends Service implements SensorEventListener {
         mMagnitometerUn = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD_UNCALIBRATED);
         mLinearAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mRotionVector = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
+
     }
 
 //    @Override
@@ -75,7 +92,28 @@ public class SensorsService extends Service implements SensorEventListener {
         mSensorManager.registerListener(this, mMagnitometerUn, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mLinearAccel, SensorManager.SENSOR_DELAY_NORMAL);
         mSensorManager.registerListener(this, mRotionVector, SensorManager.SENSOR_DELAY_NORMAL);
-//        mSensorManager.requestTriggerSensor(mTriggerEventListener, mSigMotion);
+
+//        try{
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (location != null) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+                    mCurrentLatitude = Double.toString(latitude);
+                    mCurrentLongitude = Double.toString(longitude);
+                    sLongitude = "Latitude: " + latitude;
+                    sLatitude = "Longitude: " + longitude;
+                    Log.d("Longitude: ", sLongitude);
+                    Log.d("Latitude: ", sLatitude);
+                }
+            }
+             else{
+                Context context = this;
+                Toast.makeText(context, "Please allow Location Services", Toast.LENGTH_SHORT).show();
+            }
+
         return mStartMode;
     }
 
@@ -83,7 +121,8 @@ public class SensorsService extends Service implements SensorEventListener {
         public void run() {
             DisplayLoggingInfo();
 //            handler.postDelayed(this, 10000); // 10 seconds
-            handler.post(this); // instantly post the obtained data to the caller class
+            handler.postDelayed(this, 100); // 10 seconds
+//            handler.post(this); // instantly post the obtained data to the caller class
         }
     };
 
@@ -131,7 +170,6 @@ public class SensorsService extends Service implements SensorEventListener {
                 tvRotationVector = calcs.Calculate_RotationVector(event);
                 break;
         }
-
     }
 
     private void DisplayLoggingInfo() {
@@ -144,6 +182,7 @@ public class SensorsService extends Service implements SensorEventListener {
         intent.putExtra("TYPE_MAGNETIC_FIELD_UNCALIBRATED", tvMagnitometerUn);
         intent.putExtra("TYPE_LINEAR_ACCELERATION", tvLinearAccel);
         intent.putExtra("TYPE_ROTATION_VECTOR", tvRotationVector);
+        intent.putExtra("GPS", sLongitude + "\n" + sLatitude);
         sendBroadcast(intent);
     }
 
@@ -167,4 +206,26 @@ public class SensorsService extends Service implements SensorEventListener {
         mSensorManager.unregisterListener(this, mRotionVector);
         super.onDestroy();
     }
+
+    @Override
+    public void onLocationChanged(Location loc) {
+        double longitude = loc.getLongitude();
+        double latitude = loc.getLatitude();
+        mCurrentLatitude = Double.toString(latitude);
+        mCurrentLongitude = Double.toString(longitude);
+        sLongitude = "Longitude: " + longitude;
+        sLatitude = "Latitude: " + latitude;
+        Log.d("Longitude: ", sLongitude);
+        Log.d("Latitude: ", sLatitude);
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {}
+
+    @Override
+    public void onProviderEnabled(String provider) {}
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
 }
