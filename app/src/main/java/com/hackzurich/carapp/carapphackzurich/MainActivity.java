@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.content.BroadcastReceiver;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends Activity {
 
     private static final String TAG = "SensorsService";
@@ -28,8 +30,10 @@ public class MainActivity extends Activity {
     private Button btStartSensorService;
     private Button btStopSensorService;
     private Button btDisplaySensors;
+    private Button btInEmergency;
     private TextView tvCarID;
     private TextView tvCarType;
+    private TextView tvInEmergency;
     private TextView tvLogArea;
 
     @Override
@@ -47,7 +51,14 @@ public class MainActivity extends Activity {
         btStartSensorService = (Button) findViewById(R.id.btStarSensorService);
         btStopSensorService = (Button) findViewById(R.id.btStopSensorService);
         btDisplaySensors = (Button) findViewById(R.id.btDisplaySensors);
+        btInEmergency = (Button) findViewById(R.id.btInEmergency);
+        tvInEmergency = (TextView) findViewById(R.id.tvEmergenecy);
         tvLogArea = (TextView) findViewById(R.id.tvLogArea);
+
+        tvCarID.setText("0");
+        tvCarType.setText("0");
+        tvLogArea.setText("Test text");
+        tvInEmergency.setText("0");
     }
 
     private BroadcastReceiver sensorsSReceiver = new BroadcastReceiver() {
@@ -60,9 +71,9 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        tvCarID.setText("0");
-        tvCarType.setText("0");
-        tvLogArea.setText("Test text");
+//        tvCarID.setText("0");
+//        tvCarType.setText("0");
+//        tvLogArea.setText("Test text");
     }
 
     @Override
@@ -124,6 +135,7 @@ public class MainActivity extends Activity {
     public void StarSensorService(View view) {
         backgroundIntent.putExtra("CarID", tvCarID.getText());
         backgroundIntent.putExtra("CarType", tvCarType.getText());
+        backgroundIntent.putExtra("InEmergency", tvInEmergency.getText());
         startService(backgroundIntent);
         registerReceiver(sensorsSReceiver, new IntentFilter(SensorsService.BROADCAST_ACTION));
     }
@@ -154,5 +166,13 @@ public class MainActivity extends Activity {
 
     public void startWebview(View view) {
         startActivity(webIntent);
+    }
+
+    public void setInEmergency(View view) {
+        if (tvInEmergency.getText().toString().equals("0"))
+            tvInEmergency.setText("1");
+        else
+            tvInEmergency.setText("0");
+        backgroundIntent.putExtra("InEmergency", tvInEmergency.getText());
     }
 }

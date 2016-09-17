@@ -48,6 +48,7 @@ public class SensorsService extends Service implements SensorEventListener, Loca
 
     private String CarID;
     private String CarType;
+    private String InEmergenecy;
 
     private SensorManager mSensorManager;
     private SensorsCalulations calcs;
@@ -103,6 +104,7 @@ public class SensorsService extends Service implements SensorEventListener, Loca
         handler.removeCallbacks(sendUpdatesToUI);
         CarID = intent.getStringExtra("CarID");
         CarType = intent.getStringExtra("CarType");
+        InEmergenecy = intent.getStringExtra("InEmergency");
 
 //        handler.postDelayed(sendUpdatesToUI, 1000); // 1 second
         handler.postDelayed(sendUpdatesToUI, 1000);
@@ -188,7 +190,7 @@ public class SensorsService extends Service implements SensorEventListener, Loca
         String s = "{";
         s += "\"car_id\": " + CarID + ",";
         s += "\"car_type\": " + CarType + ",";
-        s += "\"in_emergency\": 0,";
+        s += "\"in_emergency\": " + InEmergenecy + ",";
         s += "\"timestamp\": " + (System.currentTimeMillis() / 1000L) + ",";
         s += "\"sensors\":{";
         if (tvAccel != null) {
@@ -211,7 +213,7 @@ public class SensorsService extends Service implements SensorEventListener, Loca
         final String url = "http://172.31.4.246:5000/update";
         try {
             j = new JSONObject(s);
-//            Log.d("JSON", j.toString());
+            Log.d("JSON", j.toString());
         } catch(Exception e) {
             e.printStackTrace();
         }

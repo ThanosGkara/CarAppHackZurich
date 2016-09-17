@@ -16,4 +16,5 @@
     <string name="DisplaySensors">Display Sensors</string>
     <string name="WebView">Web View</string>
     <string name="GPS">GPS Location</string>
+    <string name="Emergency">Emergency</string>
 </resources>
