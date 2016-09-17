@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
-import android.hardware.TriggerEventListener;
 
 
 public class SensorsService extends Service implements SensorEventListener {
@@ -24,7 +23,6 @@ public class SensorsService extends Service implements SensorEventListener {
 
     private SensorManager mSensorManager;
     private SensorsCalulations calcs;
-    private TriggerEventListener mTriggerEventListener;
     private Sensor mAccel;
     private Sensor mGyro;
     private Sensor mGyroUn;
@@ -42,9 +40,6 @@ public class SensorsService extends Service implements SensorEventListener {
     private String tvMagnitometerUn;
     private String tvLinearAccel;
     private String tvRotationVector;
-
-//    public SensorsService() {
-//    }
 
     @Override
     public void onCreate() {

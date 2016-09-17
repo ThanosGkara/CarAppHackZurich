@@ -7,10 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,7 +17,8 @@ import android.content.BroadcastReceiver;
 public class MainActivity extends Activity {
 
     private static final String TAG = "SensorsService";
-    private Intent intent;
+    private Intent serviceIntent;
+    private Intent backgroundIntent;
     final Context context = this;
 
     private Button btCarID;
@@ -36,7 +35,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        intent = new Intent(this, SensorsViewActivity.class);
+        serviceIntent = new Intent(this, SensorsViewActivity.class);
+        backgroundIntent = new Intent(this, SensorsService.class);
 
         btCarID = (Button) findViewById(R.id.btCarID);
         btCarType = (Button) findViewById(R.id.btCarType);
@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
     private BroadcastReceiver sensorsSReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            updateLogArea(intent);
         }
     };
 
@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
     }
 
     public void showSensors(View view) {
-        startActivity(intent);
+        startActivity(serviceIntent);
     }
 
     public void setCarID(View view) {
@@ -111,5 +111,26 @@ public class MainActivity extends Activity {
         // create an alert dialog
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+    }
+
+    public void StarSensorService(View view) {
+        startService(backgroundIntent);
+        registerReceiver(sensorsSReceiver, new IntentFilter(SensorsService.BROADCAST_ACTION));
+    }
+
+    public void StopSensorService(View view) {
+        unregisterReceiver(sensorsSReceiver);
+        stopService(backgroundIntent);
+    }
+
+    private void updateLogArea(Intent intent){
+        tvLogArea.setText("");
+        tvLogArea.setText("TYPE_ACCELEROMETER: " + intent.getStringExtra("TYPE_ACCELEROMETER") + "\n"
+                + "TYPE_GYROSCOPE: " + intent.getStringExtra("TYPE_GYROSCOPE") + "\n"
+                + "TYPE_GYROSCOPE_UNCALIBRATED: " + intent.getStringExtra("TYPE_GYROSCOPE_UNCALIBRATED")
+                + "TYPE_MAGNETIC_FIELD: " + intent.getStringExtra("TYPE_MAGNETIC_FIELD")
+                + "TYPE_MAGNETIC_FIELD_UNCALIBRATED: " + intent.getStringExtra("TYPE_MAGNETIC_FIELD_UNCALIBRATED")
+                + "TYPE_LINEAR_ACCELERATION: " + intent.getStringExtra("TYPE_LINEAR_ACCELERATION")
+                + "TYPE_ROTATION_VECTOR" + intent.getStringExtra("TYPE_ROTATION_VECTOR"));
     }
 }
