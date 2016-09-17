@@ -23,14 +23,17 @@
             android:id="@+id/btCarID"
             android:onClick="setCarID"
             android:text="@string/carid" />
+        <TextView
+            android:id="@+id/tvCarID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/btCarType"
             android:onClick="setCarType"
             android:text="@string/cartype" />
-
         <TextView
-            android:id="@+id/tvCarID"
+            android:id="@+id/tvCarType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -41,11 +44,6 @@
 
         <TextView
             android:id="@+id/tvEmergenecy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tvCarType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -60,14 +58,14 @@
             android:text="@string/StopSensorService" />
 
         <Button
-            android:id="@+id/btDisplaySensors"
-            android:onClick="showSensors"
-            android:text="@string/DisplaySensors" />
-
-        <Button
             android:id="@+id/btWebView"
             android:onClick="startWebview"
             android:text="@string/WebView" />
+
+        <Button
+            android:id="@+id/btDisplaySensors"
+            android:onClick="showSensors"
+            android:text="@string/DisplaySensors" />
     </GridLayout>
 
     <LinearLayout

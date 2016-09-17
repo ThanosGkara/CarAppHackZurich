@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         serviceIntent = new Intent(this, SensorsViewActivity.class);
         backgroundIntent = new Intent(this, SensorsService.class);
         webIntent = new Intent(this, FrontEndActivity.class);
@@ -55,10 +56,6 @@ public class MainActivity extends Activity {
         tvInEmergency = (TextView) findViewById(R.id.tvEmergenecy);
         tvLogArea = (TextView) findViewById(R.id.tvLogArea);
 
-        tvCarID.setText("0");
-        tvCarType.setText("0");
-        tvLogArea.setText("Test text");
-        tvInEmergency.setText("0");
     }
 
     private BroadcastReceiver sensorsSReceiver = new BroadcastReceiver() {
@@ -71,9 +68,10 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-//        tvCarID.setText("0");
-//        tvCarType.setText("0");
-//        tvLogArea.setText("Test text");
+        tvCarID.setText("0");
+        tvCarType.setText("0");
+        tvInEmergency.setText("0");
+        tvLogArea.setText("Test text");
     }
 
     @Override
@@ -107,14 +105,15 @@ public class MainActivity extends Activity {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (type.equals("ID")) {
-                            tvCarID.setText("Car ID: " + editText.getText());
+                            tvCarID.setText(editText.getText());
                         }
                         else if (type.equals("Type")){
-                            if ((editText.getText().equals("0")) || (editText.getText().equals("1"))){
-                                tvCarType.setText("Car Type: " + editText.getText());
+                            if ((!editText.getText().toString().equals("0")) ||
+                                    (!editText.getText().toString().equals("1"))){
+                                tvCarType.setText(editText.getText());
                             }
                             else {
-                                tvCarType.setText("Car Type: 0");
+                                tvCarType.setText("0");
                             }
 
                         }
@@ -133,9 +132,9 @@ public class MainActivity extends Activity {
     }
 
     public void StarSensorService(View view) {
-        backgroundIntent.putExtra("CarID", tvCarID.getText());
-        backgroundIntent.putExtra("CarType", tvCarType.getText());
-        backgroundIntent.putExtra("InEmergency", tvInEmergency.getText());
+        backgroundIntent.putExtra("CarID", tvCarID.getText().toString());
+        backgroundIntent.putExtra("CarType", tvCarType.getText().toString());
+        backgroundIntent.putExtra("InEmergency", tvInEmergency.getText().toString());
         startService(backgroundIntent);
         registerReceiver(sensorsSReceiver, new IntentFilter(SensorsService.BROADCAST_ACTION));
     }
@@ -173,6 +172,5 @@ public class MainActivity extends Activity {
             tvInEmergency.setText("1");
         else
             tvInEmergency.setText("0");
-        backgroundIntent.putExtra("InEmergency", tvInEmergency.getText());
     }
 }
