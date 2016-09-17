@@ -21,13 +21,13 @@
 
         <Button
             android:id="@+id/btCarID"
-            android:text="@string/carid"
-            android:onClick="setCarID"/>
+            android:onClick="setCarID"
+            android:text="@string/carid" />
 
         <Button
             android:id="@+id/btCarType"
-            android:text="@string/cartype"
-            android:onClick="setCarType"/>
+            android:onClick="setCarType"
+            android:text="@string/cartype" />
 
         <TextView
             android:id="@+id/tvCarID"
@@ -41,23 +41,23 @@
 
         <Button
             android:id="@+id/btStarSensorService"
-            android:text="@string/StarSensorService"
-            android:onClick="StarSensorService"/>
+            android:onClick="StarSensorService"
+            android:text="@string/StarSensorService" />
 
         <Button
             android:id="@+id/btStopSensorService"
-            android:text="@string/StopSensorService"
-            android:onClick="StopSensorService"/>
+            android:onClick="StopSensorService"
+            android:text="@string/StopSensorService" />
 
         <Button
             android:id="@+id/btDisplaySensors"
-            android:text="@string/DisplaySensors"
-            android:onClick="showSensors"/>
+            android:onClick="showSensors"
+            android:text="@string/DisplaySensors" />
 
         <Button
             android:id="@+id/btWebView"
-            android:text="@string/WebView"
-            android:onClick="startWebview"/>
+            android:onClick="startWebview"
+            android:text="@string/WebView" />
     </GridLayout>
 
     <LinearLayout
@@ -65,9 +65,14 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/GRD">
 
-        <TextView
-            android:id="@+id/tvLogArea"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvLogArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
     </LinearLayout>
 </RelativeLayout>

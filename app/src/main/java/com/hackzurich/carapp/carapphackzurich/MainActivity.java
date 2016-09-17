@@ -40,7 +40,6 @@ public class MainActivity extends Activity {
         serviceIntent = new Intent(this, SensorsViewActivity.class);
         backgroundIntent = new Intent(this, SensorsService.class);
         webIntent = new Intent(this, FrontEndActivity.class);
-
         btCarID = (Button) findViewById(R.id.btCarID);
         btCarType = (Button) findViewById(R.id.btCarType);
         tvCarID = (TextView) findViewById(R.id.tvCarID);
@@ -61,8 +60,8 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        tvCarID.setText("Car ID: ");
-        tvCarType.setText("Car Type: ");
+        tvCarID.setText("0");
+        tvCarType.setText("0");
         tvLogArea.setText("Test text");
     }
 
@@ -100,7 +99,13 @@ public class MainActivity extends Activity {
                             tvCarID.setText("Car ID: " + editText.getText());
                         }
                         else if (type.equals("Type")){
-                            tvCarType.setText("Car Type: " + editText.getText());
+                            if ((editText.getText().equals("0")) || (editText.getText().equals("1"))){
+                                tvCarType.setText("Car Type: " + editText.getText());
+                            }
+                            else {
+                                tvCarType.setText("Car Type: 0");
+                            }
+
                         }
                     }
                 })
@@ -117,6 +122,8 @@ public class MainActivity extends Activity {
     }
 
     public void StarSensorService(View view) {
+        backgroundIntent.putExtra("CarID", tvCarID.getText());
+        backgroundIntent.putExtra("CarType", tvCarType.getText());
         startService(backgroundIntent);
         registerReceiver(sensorsSReceiver, new IntentFilter(SensorsService.BROADCAST_ACTION));
     }
@@ -139,7 +146,10 @@ public class MainActivity extends Activity {
                 + "TYPE_MAGNETIC_FIELD: " + intent.getStringExtra("TYPE_MAGNETIC_FIELD") + "\n\n"
                 + "TYPE_MAGNETIC_FIELD_UNCALIBRATED: " + intent.getStringExtra("TYPE_MAGNETIC_FIELD_UNCALIBRATED") + "\n\n"
                 + "TYPE_LINEAR_ACCELERATION: " + intent.getStringExtra("TYPE_LINEAR_ACCELERATION") + "\n\n"
-                + "TYPE_ROTATION_VECTOR: " + intent.getStringExtra("TYPE_ROTATION_VECTOR") + "\n\n");
+                + "TYPE_ROTATION_VECTOR: " + intent.getStringExtra("TYPE_ROTATION_VECTOR") + "\n\n"
+                + "GPS: \n" + intent.getStringExtra("GPS") + "\n");
+
+
     }
 
     public void startWebview(View view) {

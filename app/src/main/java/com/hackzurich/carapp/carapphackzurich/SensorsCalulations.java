@@ -148,56 +148,19 @@ public class SensorsCalulations {
         return disp;
     }
 
-    public String Calculate_Magnetometer(SensorEvent event) {
-
-        double mT = event.values[0];
-
-        String disp = event.sensor.getName() + "\n";
-        disp += Double.toString(Math.round(mT * INT_ROUNDVAL) / DOUBLE_ROUNDVAL) + " μT";
-
-        return disp;
+    public double Calculate_Magnetometer(SensorEvent event) {
+        return event.values[0];
     }
 
-    public String Calculate_MagnetometerUn(SensorEvent event) {
-
-        double mT = event.values[0];
-
-        String disp = event.sensor.getName() + "\n";
-        disp += Double.toString(Math.round(mT * INT_ROUNDVAL) / DOUBLE_ROUNDVAL) + " μT";
-
-        return disp;
+    public double Calculate_MagnetometerUn(SensorEvent event) {
+        return event.values[0];
     }
 
-    public String Calculate_LinearAccel(SensorEvent event) {
-
-        double la = event.values[0];
-        double la1 = event.values[1];
-        double la2 = event.values[2];
-
-        String disp = event.sensor.getName() + "\n";
-        disp += Double.toString(Math.round(la * INT_ROUNDVAL) / DOUBLE_ROUNDVAL)  + " m/s²" + "\n"
-                + Double.toString(Math.round(la1 * INT_ROUNDVAL) / DOUBLE_ROUNDVAL)  + " m/s²" + "\n"
-                + Double.toString(Math.round(la2 * INT_ROUNDVAL) / DOUBLE_ROUNDVAL)  + " m/s²";
-
-        return disp;
+    public float[] Calculate_LinearAccel(SensorEvent event) {
+        return event.values;
     }
 
-    public String Calculate_RotationVector(SensorEvent event) {
-
-        double axisX = event.values[0];
-        double axisY = event.values[1];
-        double axisZ = event.values[2];
-        double W = event.values[3];
-
-        // User code should concatenate the delta rotation we computed with the current rotation
-        // in order to get the updated rotation.
-        //  rotationCurrent = rotationCurrent * deltaRotationMatrix;
-        String disp = event.sensor.getName() + "\n";
-        disp += "X: " + Double.toString(Math.round(axisX * INT_ROUNDVAL) / DOUBLE_ROUNDVAL) + "  rad" + "\n"
-                + "Y: " + Double.toString(Math.round(axisY * INT_ROUNDVAL) / DOUBLE_ROUNDVAL) + "  rad" + "\n"
-                + "Z: " + Double.toString(Math.round(axisZ * INT_ROUNDVAL) / DOUBLE_ROUNDVAL) + "  rad" + "\n"
-                + "W(scalar): " + Double.toString(Math.round(W * INT_ROUNDVAL) / DOUBLE_ROUNDVAL) + "  rad";
-
-        return disp;
+    public float[] Calculate_RotationVector(SensorEvent event) {
+        return event.values;
     }
 }
